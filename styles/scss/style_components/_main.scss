@@ -1,0 +1,311 @@
+// top_half and bottom_half background circle size change on 1440px breakpoint
+@mixin circle() {
+    @media (min-width: 1440px) {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Red Hat Text', sans-serif;
+    font-weight: 700;
+    background-image: url(../../images/pattern-hills.svg), url(../../images/bg-stars.svg), linear-gradient(180deg, #1D1E28 0.12%, #261C2D 94.84%, #261A2D 100%);
+    background-position: bottom 0 left 0, top 0 left 0;
+    background-size: 900px 168px, cover, 100vw;    
+    background-repeat: no-repeat no-repeat;
+    padding-top: 142px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @media (min-width: 900px) {
+        background-size: contain, cover, 100vw; 
+        padding-top: 132px;
+    }
+}
+
+.title {
+    font-size: 18px;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: 6.135px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    max-width: 329px;
+
+    @media (min-width: 1440px) {
+        max-width: 450px;
+        font-size: 22px;
+        line-height: 29px;
+        letter-spacing: 7.5px;
+    }
+}
+
+.timer {
+    margin-top: 54px;
+    display: flex;
+    gap: 16px;
+
+    @media (min-width: 1440px) {
+        margin-top: 104px;
+        gap: 32px;
+    }
+
+    .time-unit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 9px;
+
+        @media (min-width: 1440px) {
+            gap: 16px;
+        }
+
+        .flip-card {
+            display: inline-flex;
+            flex-direction: column;
+            position: relative;
+
+            &::after {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 10px;
+                bottom: -5px;
+                background: #191A23;
+                border-radius: 0px 0px 8px 8px;
+                z-index: -1;
+
+                @media (min-width: 1440px) {
+                    width: 170px;
+                    height: 80px;
+                    bottom: -10px;
+                }
+            }
+
+            // flip animation
+
+            
+    
+            .top_half, .bottom_half {
+                width: 75px;
+                height: 33px;
+                padding: 15px;
+                font-size: 36px;
+                letter-spacing: -1.08px;
+                color: #FB5E84;
+                position: relative;
+                overflow: hidden;
+
+                @media (min-width: 1440px) {
+                    width: 170px;
+                    height: 70px;
+                    font-size: 80px;
+                    line-height: 71px;
+                    letter-spacing: -2.4px;
+                    padding: 35px;
+                }
+            }
+
+            .flip-down {
+                animation: flip-down 250ms ease-in;
+            }
+
+            @keyframes flip-down{
+                100% {
+                    transform: rotateX(180deg);
+                }
+            }
+    
+            .top_half {
+                background: #31334f;
+                border-radius: 4px 4px 0px 0px;
+                border-bottom: 0.25px solid rgba(25, 26, 35, 0.25);
+                
+                @media (min-width: 1440px) {
+                    border-radius: 8px 8px 0px 0px;
+                    border-bottom: 0.5px solid rgba(25, 26, 35, 0.25);
+                }
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    width: 6px;
+                    height: 6px;
+                    background: #191A23;
+                    border-radius: 50px;
+                    bottom: 0;
+                    right: 0;
+                    transform: translate(50%, 50%);
+
+                    @include circle();
+                }
+    
+                &::after {
+                    content: "";
+                    position: absolute;
+                    width: 6px;
+                    height: 6px;
+                    background: #191A23;
+                    border-radius: 50px;
+                    bottom: 0;
+                    left: 0;
+                    transform: translate(-50%, 50%);
+
+                    @include circle();
+                }
+            }
+    
+            .bottom_half {
+                background: #343650;
+                display: flex;
+                align-items: flex-end;
+                border-radius: 0px 0px 4px 4px;
+                border-top: 0.25px solid rgba(25, 26, 35, 0.25);
+    
+                @media (min-width: 1440px) {
+                    border-radius: 0px 0px 8px 8px;
+                    border-bottom: 0.5px solid rgba(25, 26, 35, 0.25);
+                }
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    width: 6px;
+                    height: 6px;
+                    background: #191A23;
+                    border-radius: 50px;
+                    top: 0;
+                    right: 0;
+                    transform: translate(50%,- 50%);
+
+                    @include circle();
+                }
+    
+                &::after {
+                    content: "";
+                    position: absolute;
+                    width: 6px;
+                    height: 6px;
+                    background: #191A23;
+                    border-radius: 50px;
+                    top: 0;
+                    left: 0;
+                    transform: translate(-50%, -50%);
+
+                    @include circle();
+                }
+            }
+        }
+
+
+        animation
+
+        .animation::before {
+            content: "05";
+            width: 100%;
+            height: 50%;
+            position: absolute;
+            z-index: 1;
+            text-align: center;
+            font-size: 36px;
+            letter-spacing: -1.08px;
+            color: #FB5E84;
+            overflow: hidden;
+            padding-top: 15px;
+            
+
+            @media (min-width:1440px) {
+                font-size: 80px;
+                line-height: 71px;
+                letter-spacing: -2.4px;
+                padding-top: 35px;
+            }
+
+            
+        }
+
+        .animate-top {
+            animation: flip-top 250ms ease-in;
+            transform-origin: bottom;
+        }
+
+        @keyframes flip-top {
+            100% {
+                transform: rotateX(90deg);
+            }
+        }
+
+        
+
+        .animation::after {
+            content: "05";
+            width: 100%;
+            height: 50%;
+            position: absolute;
+            bottom: 0;
+            transform: translateY(-50%);
+            z-index: 0;
+            text-align: center;
+            font-size: 36px;
+            letter-spacing: -1.08px;
+            color: #FB5E84;
+            overflow: hidden;
+            background: none;
+            transform: rotateX(90deg);
+
+            @media (min-width:1440px) {
+                font-size: 80px;
+                line-height: 71px;
+                letter-spacing: -2.4px;
+                padding-top: -35px;
+            }
+        }
+
+        .animate-bottom {
+            animation: flip-bottom 250ms ease-in;
+            transform-origin: top;
+        }
+
+        @keyframes flip-bottom {
+            100% {
+                transform: rotateX(0deg);
+            }
+        }
+
+        .flip-card-title {
+            font-size: 7px;
+            line-height: 9px;
+            letter-spacing: 2.95937px;
+            color: #8385A9;
+
+            @media (min-width: 1440px) {
+                font-size: 14px;
+                line-height: 19px;
+                letter-spacing: 5.91875px;
+            }
+        }
+    }
+}
+
+.icons-footer {
+    display: flex;
+    gap: 32px;
+    position: absolute;
+    bottom: 80px;
+
+    svg path {
+        transition: 0.5s;
+
+        &:hover {
+            fill: #FB5E84;
+            cursor: pointer;
+        }
+    }
+
+    @media (min-width: 1440px) {
+        bottom: 100px;
+    }
+}
