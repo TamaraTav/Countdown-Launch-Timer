@@ -1,108 +1,107 @@
 `use strict`;
 
-let second_elements = document.querySelectorAll(".seconds");
-let minute_elements = document.querySelectorAll(".minutes");
-let hour_elements = document.querySelectorAll(".hours");
-let day_elements = document.querySelectorAll(".days");
+// Target date configuration
+const TARGET_DATE_STRING = "February 13, 2026 00:00:00";
 
-let countdown = () => {
-  let countDate = new Date("February 13, 2026 00:00:00").getTime();
-  let now = new Date().getTime();
-  let gap = countDate - now;
+// DOM elements
+const second_elements = document.querySelectorAll(".seconds");
+const minute_elements = document.querySelectorAll(".minutes");
+const hour_elements = document.querySelectorAll(".hours");
+const day_elements = document.querySelectorAll(".days");
 
-  // calculating time units
-  let second = 1000;
-  let minute = second * 60;
-  let hour = minute * 60;
-  let day = hour * 24;
+// Validate DOM elements exist
+if (
+  second_elements.length === 0 ||
+  minute_elements.length === 0 ||
+  hour_elements.length === 0 ||
+  day_elements.length === 0
+) {
+  console.error("Error: Required DOM elements not found. Please check HTML structure.");
+  throw new Error("Required DOM elements missing");
+}
 
-  // calculate seconds, minutes, hours and days depending on the gap
-  let day_counter = Math.floor(gap / day);
-  let hour_counter = Math.floor((gap % day) / hour);
-  let minute_counter = Math.floor((gap % hour) / minute);
-  let second_counter = Math.floor((gap % minute) / second);
+// Parse target date with error handling
+let targetDate;
+try {
+  targetDate = new Date(TARGET_DATE_STRING);
+  if (isNaN(targetDate.getTime())) {
+    throw new Error(`Invalid date format: ${TARGET_DATE_STRING}`);
+  }
+} catch (error) {
+  console.error("Error parsing target date:", error.message);
+  // Set a default future date if parsing fails
+  targetDate = new Date();
+  targetDate.setFullYear(targetDate.getFullYear() + 1);
+  console.warn(`Using fallback date: ${targetDate.toLocaleString()}`);
+}
 
-  // appling changes with the help of function
-  applyChanges(second_elements, second_counter);
-  applyChanges(minute_elements, minute_counter);
-  applyChanges(hour_elements, hour_counter);
-  applyChanges(day_elements, day_counter);
+const countdown = () => {
+  try {
+    const countDate = targetDate.getTime();
+    const now = new Date().getTime();
+    const gap = countDate - now;
 
-  if (
-    day_counter <= 0 &&
-    hour_counter <= 0 &&
-    minute_counter <= 0 &&
-    second_counter <= 0
-  ) {
+    // Check if date has passed
+    if (gap < 0) {
+      clearInterval(intervalID);
+      applyChanges(second_elements, 0);
+      applyChanges(minute_elements, 0);
+      applyChanges(hour_elements, 0);
+      applyChanges(day_elements, 0);
+      console.info("Countdown has ended. Target date has passed.");
+      return;
+    }
+
+    // Calculating time units
+    const second = 1000;
+    const minute = second * 60;
+    const hour = minute * 60;
+    const day = hour * 24;
+
+    // Calculate seconds, minutes, hours and days depending on the gap
+    const day_counter = Math.floor(gap / day);
+    const hour_counter = Math.floor((gap % day) / hour);
+    const minute_counter = Math.floor((gap % hour) / minute);
+    const second_counter = Math.floor((gap % minute) / second);
+
+    // Apply changes with the help of function
+    applyChanges(second_elements, second_counter);
+    applyChanges(minute_elements, minute_counter);
+    applyChanges(hour_elements, hour_counter);
+    applyChanges(day_elements, day_counter);
+
+    // Check if countdown reached zero
+    if (
+      day_counter <= 0 &&
+      hour_counter <= 0 &&
+      minute_counter <= 0 &&
+      second_counter <= 0
+    ) {
+      clearInterval(intervalID);
+      applyChanges(second_elements, 0);
+      applyChanges(minute_elements, 0);
+      applyChanges(hour_elements, 0);
+      applyChanges(day_elements, 0);
+    }
+  } catch (error) {
+    console.error("Error in countdown function:", error);
     clearInterval(intervalID);
-    applyChanges(second_elements, 0);
-    applyChanges(minute_elements, 0);
-    applyChanges(hour_elements, 0);
-    applyChanges(day_elements, 0);
   }
 };
 
 function applyChanges(time_unit_elements, time_counter) {
+  // Ensure time_counter is a valid number
+  const safeCounter = Math.max(0, Math.floor(time_counter) || 0);
+  
   time_unit_elements.forEach((element) => {
-    element.textContent = time_counter.toString().padStart(2, "0");
+    if (element) {
+      element.textContent = safeCounter.toString().padStart(2, "0");
+    }
   });
 }
 
-let intervalID = setInterval(countdown, 1000);
+// Initialize countdown immediately
+countdown();
 
-// second method
-
-// let flip_card = document.querySelectorAll(".animation");
-// let days_elements = document.querySelectorAll(".days");
-// let hours_elements = document.querySelectorAll(".hours");
-// let mintues_elements = document.querySelectorAll(".minutes");
-// let seconds_elements = document.querySelectorAll(".seconds");
-
-// function timer() {
-//     // get element values
-//     let days = getTimeUnits(days_elements);
-//     let hours = getTimeUnits(hours_elements);
-//     let minutes = getTimeUnits(mintues_elements);
-//     let seconds = getTimeUnits(seconds_elements);
-
-//     // reduce seconds by 1
-//     seconds--;
-//     numberChange(seconds_elements, seconds);
-
-//     // change time(minutes, hours, days)
-//     timeChange(seconds, minutes, seconds_elements, mintues_elements, 60, 3);
-//     timeChange(minutes, hours, mintues_elements, hours_elements, 59, 2);
-//     timeChange(hours, days, hours_elements, days_elements, 23, 1);
-
-//     // check for endpoint
-//     if (days == 0 && hours == 0 && minutes == 0 && seconds == 0) {
-//         clearInterval(intervalID);
-//     }
-
-// }
-
-// // function for time change
-// function timeChange(time_unit, time_unit_plus, time_unit_elements, time_unit_elements_plus, reset_value, i) {
-//     if (time_unit < 0) {
-//         numberChange(time_unit_elements, reset_value);
-//         time_unit_plus--;
-//         numberChange(time_unit_elements_plus, time_unit_plus);
-//         animation[i].classList.add(".animate-top");
-//         animation[i].classList.add(".animate-bottom");
-//     }
-// }
-
-// // function for getting text content of DOM elements
-// function getTimeUnits(time_unit_element) {
-//     return Number(time_unit_element[0].textContent);
-// }
-
-// // function for time number change format
-// function numberChange(time_unit_element, time_unit) {
-//     time_unit_element.forEach(e => {
-//         e.textContent = time_unit.toString().padStart(2, "0");
-//     });
-// }
-
-// // calls timer function every 1 second
-// const intervalID = setInterval(timer, 1000);
+// Set interval for countdown updates
+const intervalID = setInterval(countdown, 1000);
