@@ -6,7 +6,7 @@ let hour_elements = document.querySelectorAll(".hours");
 let day_elements = document.querySelectorAll(".days");
 
 let countdown = () => {
-  let countDate = new Date("December 31, 2023 00:00:00").getTime();
+  let countDate = new Date("February 13, 2026 00:00:00").getTime();
   let now = new Date().getTime();
   let gap = countDate - now;
 
