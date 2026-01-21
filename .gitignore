@@ -1,0 +1,19 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+yarn.lock
+
+# Cypress artifacts
+cypress/videos/
+cypress/screenshots/
+
+# Build / dist
+dist/
+build/
+
+# Environment / local config
+.env
+.env.local
+.DS_Store
+
