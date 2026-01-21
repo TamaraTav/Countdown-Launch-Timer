@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Cypress
+cypress/
+cypress.config.*
+
+# Local / IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Logs
+npm-debug.log*
+yarn-error.log*
+
